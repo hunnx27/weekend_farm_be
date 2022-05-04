@@ -5,7 +5,7 @@ Boiler Plate
 - framework: SpringBoot 2.6.7
 - JDK: JAVA 11
 - DB handling: JPA, QueryDsl
-- build: Gradle
+- build: Maven
 
 ## H2 Memory DB
 - localhost:8080/h2-console로 접속
