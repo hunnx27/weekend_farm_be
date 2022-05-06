@@ -9,4 +9,5 @@ public interface EducationRepositoryExtension {
 
     Page<Education> educations(EducationSearchRequest educationSearchRequest, Pageable pageable);
 
+    boolean deleteEducation(Long id);
 }

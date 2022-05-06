@@ -9,5 +9,5 @@ public interface AccountRepositoryExtension {
 
     Page<Account> accounts(AccountSearchRequest accountSearchRequest, Pageable pageable);
 
-    boolean deleteAccount(Long id);
+    Account deleteAccount(Long id);
 }

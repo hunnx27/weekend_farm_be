@@ -1,6 +1,5 @@
 package com.example.demo.modules.education.infra;
 
-import com.example.demo.modules.account.domain.Account;
 import com.example.demo.modules.account.domain.QAccount;
 import com.example.demo.modules.common.type.YN;
 import com.example.demo.modules.education.application.request.EducationSearchRequest;
@@ -8,9 +7,7 @@ import com.example.demo.modules.education.domain.Education;
 import com.example.demo.modules.education.domain.QEducation;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -52,4 +49,16 @@ public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport 
         QueryResults<Education> queryResults = query.fetchResults();
         return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
     }
+
+    @Override
+    public boolean deleteEducation(Long id) {
+        QEducation education = QEducation.education;
+        return update(education)
+                .set(education.isDelete, YN.Y)
+                .where(education.isDelete.eq(YN.N)
+                        .and(education.id.eq(id)))
+                .execute() == 1L;
+    }
+
+
 }

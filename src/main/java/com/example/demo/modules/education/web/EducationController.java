@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/education")
+@RequestMapping("/educations")
 public class EducationController {
 
     private final EducationService eduCationService;
@@ -41,17 +41,22 @@ public class EducationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(EducationUpdateRequest educationUpdateRequest, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody EducationUpdateRequest educationUpdateRequest, @PathVariable Long id){
         educationUpdateRequest.setId(id);
         return ResponseEntity.ok(eduCationService.update(educationUpdateRequest));
     }
 
-    @GetMapping("/{id}/join")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return ResponseEntity.ok(eduCationService.delete(id));
+    }
+
+    @PostMapping("/{id}/join")
     public ResponseEntity<?> join(@PathVariable Long id, Long accountId){
         return ResponseEntity.ok(eduCationService.join(id, accountId));
     }
 
-    @GetMapping("/{id}/leave")
+    @PostMapping("/{id}/leave")
     public ResponseEntity<?> leave(@PathVariable Long id, Long accountId){
         return ResponseEntity.ok(eduCationService.leave(id, accountId));
     }

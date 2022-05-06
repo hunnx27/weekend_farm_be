@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 public class AccountController {
 
     private final AccountService accountService;
@@ -57,5 +57,10 @@ public class AccountController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         boolean delete = accountService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body(delete);
+    }
+
+    @GetMapping("/{id}/educations")
+    public ResponseEntity<?> educations(@PathVariable Long id){
+        return ResponseEntity.ok(accountService.educations(id));
     }
 }

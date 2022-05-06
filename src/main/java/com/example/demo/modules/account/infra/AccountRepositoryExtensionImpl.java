@@ -4,6 +4,7 @@ import com.example.demo.modules.account.application.request.AccountSearchRequest
 import com.example.demo.modules.account.domain.Account;
 import com.example.demo.modules.account.domain.QAccount;
 import com.example.demo.modules.common.type.YN;
+import com.example.demo.modules.education.domain.QEducation;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
@@ -42,15 +43,7 @@ public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport im
             where.or(account.email.containsIgnoreCase(accountSearchRequest.getEmail()));
         }
 
-        JPAQuery<Account> result = queryFactory.select(
-                        Projections.bean(Account.class,
-                                account.id,
-                                account.name,
-                                account.email,
-                                account.age,
-                                account.location
-                        ))
-                .from(account)
+        JPQLQuery<Account> result = from(account)
                 .where(where);
 
         JPQLQuery<Account> query = Objects
@@ -62,12 +55,15 @@ public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport im
     }
 
     @Override
-    public boolean deleteAccount(Long id) {
+    public Account deleteAccount(Long id) {
         QAccount account = QAccount.account;
-        return queryFactory.update(account)
+        queryFactory.update(account)
                 .set(account.isDelete, YN.Y)
                 .where(account.id.eq(id)
                         .and(account.isDelete.eq(YN.N)))
-                .execute() == 1L;
+                .execute();
+        return from(account)
+                .where(account.id.eq(id))
+                .fetchOne();
     }
 }

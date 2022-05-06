@@ -2,6 +2,7 @@ package com.example.demo.modules.education.domain;
 
 import com.example.demo.modules.account.domain.Account;
 import com.example.demo.modules.common.type.YN;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Education {
 
     @Id @GeneratedValue
@@ -33,12 +33,12 @@ public class Education {
     private int accountsCount;
 
     public void addAccount(Account account){
-        this.accounts.add(account);
+        this.getAccounts().add(account);
         this.accountsCount++;
     }
 
     public void removeAccount(Account account){
-        this.accounts.remove(account);
+        this.getAccounts().remove(account);
         this.accountsCount--;
     }
 

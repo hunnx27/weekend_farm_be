@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Slf4j
@@ -21,6 +21,7 @@ import java.util.Optional;
 public class EducationService {
     private final EducationRepository educationRepository;
     private final AccountRepository accountRepository;
+
     public Education create(Education education) {
         return educationRepository.save(education);
     }
@@ -36,25 +37,44 @@ public class EducationService {
 
     public Education update(EducationUpdateRequest educationUpdateRequest) {
         Education education = educationRepository.findById(educationUpdateRequest.getId()).orElseThrow();
-        education.setName(education.getName());
-        education.setSubject(education.getSubject());
+        education.setName(educationUpdateRequest.getName());
+        education.setSubject(educationUpdateRequest.getSubject());
         return educationRepository.save(education);
     }
 
     public Education join(Long id, Long accountId) {
-        Education education = educationRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        Account account = accountRepository.findById(accountId).orElseThrow();
+        Account account = accountRepository.findById(accountId)
+                .orElse(new Account());
 
-        education.addAccount(account);
-        return educationRepository.save(education);
+        return educationRepository.findById(id)
+                .map(x -> {
+                    if(!x.getAccounts().contains(account)){
+                        x.addAccount(account);
+                        educationRepository.save(x);
+                    }
+                    return x;
+                }).orElseThrow();
     }
 
     public Education leave(Long id, Long accountId) {
-        Education education = educationRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        Account account = accountRepository.findById(accountId).orElseThrow();
+        Account account = accountRepository.findById(accountId)
+                .orElse(new Account());
 
-        education.removeAccount(account);
-        return educationRepository.save(education);
+        return educationRepository.findById(id)
+                .map(x -> {
+                    if(x.getAccounts().contains(account)){
+                        x.removeAccount(account);
+                        educationRepository.save(x);
+                    }
+                    return x;
+                }).orElseThrow();
     }
+
+    public boolean delete(Long id) {
+        educationRepository.findById(id)
+                .ifPresent(x -> x.setAccounts(new HashSet<>()));
+        return educationRepository.deleteEducation(id);
+    }
+
 }
 
