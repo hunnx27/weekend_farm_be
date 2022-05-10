@@ -9,5 +9,5 @@ import java.util.List;
 public interface AccountRepository extends JpaRepository<Account, Long>, AccountRepositoryExtension {
 
     Account findByEmail(String email);
-
+    Account findByName(String name);
 }

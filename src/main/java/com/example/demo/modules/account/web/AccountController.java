@@ -5,6 +5,7 @@ import com.example.demo.modules.account.application.request.AccountCreateRequest
 import com.example.demo.modules.account.application.request.AccountSearchRequest;
 import com.example.demo.modules.account.application.request.AccountUpdateRequest;
 import com.example.demo.modules.account.domain.Account;
+import com.example.demo.modules.common.web.BaseApiController;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -17,19 +18,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/accounts")
-public class AccountController {
+public class AccountController extends BaseApiController {
 
     private final AccountService accountService;
     private final ModelMapper modelMapper;
 
-    @PostMapping("")
+    @PostMapping("/accounts")
     public ResponseEntity<?> create(@RequestBody AccountCreateRequest accountCreateRequest) {
         Account account = accountService.create(modelMapper.map(accountCreateRequest, Account.class));
         return ResponseEntity.status(HttpStatus.OK).body(account);
     }
 
-    @GetMapping
+    @GetMapping("/accounts")
     public ResponseEntity<?> list(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
                     Pageable pageable,
@@ -38,13 +38,13 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/accounts/{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id){
         Account one = accountService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(one);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/accounts/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
                                     @RequestBody AccountUpdateRequest accountUpdateRequest){
 
@@ -53,14 +53,15 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/accounts/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         boolean delete = accountService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body(delete);
     }
 
-    @GetMapping("/{id}/educations")
+    @GetMapping("/accounts/{id}/educations")
     public ResponseEntity<?> educations(@PathVariable Long id){
         return ResponseEntity.ok(accountService.educations(id));
     }
+
 }

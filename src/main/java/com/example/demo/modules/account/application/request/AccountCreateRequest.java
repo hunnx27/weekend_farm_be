@@ -13,5 +13,6 @@ public class AccountCreateRequest {
     private String email;
     private String age;
     private String location;
+    private String password;
 
 }

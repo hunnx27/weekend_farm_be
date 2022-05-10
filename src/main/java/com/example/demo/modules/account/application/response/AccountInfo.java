@@ -20,6 +20,15 @@ public class AccountInfo {
     private String email;
     private String age;
     private String location;
-    private YN isDelete = YN.N;
-    private Set<Education> educations;
+    private YN isDelete;
+    private Set<Educations> educations;
+
+    @Getter
+    @Setter
+    private static class Educations{
+        private Long id;
+        private String name;
+        private String subject;
+        private YN isDelete = YN.N;
+    }
 }

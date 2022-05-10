@@ -27,12 +27,18 @@ public class Account {
     private Long id;
 
     private String name;
+
+    private String password;
     private String email;
     private String age;
     private String location;
 
     @Enumerated(EnumType.STRING)
     private YN isDelete = YN.N;
+
+    @ManyToMany(mappedBy = "accounts")
+    @JsonBackReference
+    private Set<Education> educations = new HashSet<>();
 
     public void setUpdateData(AccountUpdateRequest account){
         this.name = account.getName();

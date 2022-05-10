@@ -1,6 +1,7 @@
 package com.example.demo.modules.education.web;
 
 import com.example.demo.modules.account.domain.Account;
+import com.example.demo.modules.common.web.BaseApiController;
 import com.example.demo.modules.education.application.EducationService;
 import com.example.demo.modules.education.application.request.EducationCreateRequest;
 import com.example.demo.modules.education.application.request.EducationSearchRequest;
@@ -16,18 +17,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/educations")
-public class EducationController {
+public class EducationController extends BaseApiController {
 
     private final EducationService eduCationService;
     private final ModelMapper modelMapper;
 
-    @PostMapping
+    @PostMapping("/educations")
     public ResponseEntity<?> create(@RequestBody EducationCreateRequest educationCreateRequest) {
         return ResponseEntity.ok(eduCationService.create(modelMapper.map(educationCreateRequest, Education.class)));
     }
 
-    @GetMapping
+    @GetMapping("/educations")
     public ResponseEntity<?> list(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
             Pageable pageable,
@@ -35,28 +35,28 @@ public class EducationController {
         return ResponseEntity.ok(eduCationService.list(educationSearchRequest, pageable));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/educations/{id}")
     public ResponseEntity<?> list(@PathVariable Long id){
         return ResponseEntity.ok(eduCationService.detail(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/educations/{id}")
     public ResponseEntity<?> update(@RequestBody EducationUpdateRequest educationUpdateRequest, @PathVariable Long id){
         educationUpdateRequest.setId(id);
         return ResponseEntity.ok(eduCationService.update(educationUpdateRequest));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/educations/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         return ResponseEntity.ok(eduCationService.delete(id));
     }
 
-    @PostMapping("/{id}/join")
+    @PostMapping("/educations/{id}/join")
     public ResponseEntity<?> join(@PathVariable Long id, Long accountId){
         return ResponseEntity.ok(eduCationService.join(id, accountId));
     }
 
-    @PostMapping("/{id}/leave")
+    @PostMapping("/educations/{id}/leave")
     public ResponseEntity<?> leave(@PathVariable Long id, Long accountId){
         return ResponseEntity.ok(eduCationService.leave(id, accountId));
     }
