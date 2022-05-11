@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,7 +59,7 @@ class EducationControllerTest {
     @DisplayName("교육 전체 조회")
     @Test
     void findEducations() throws Exception {
-        mockMvc.perform(get("/educations"))
+        mockMvc.perform(get("/api/educations"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").isNotEmpty());
@@ -66,10 +67,11 @@ class EducationControllerTest {
 
     @DisplayName("교육 단건 조회")
     @Test
+    @WithMockUser
     void findEducation() throws Exception {
         Education education = educationRepository.findAll().get(0);
 
-        mockMvc.perform(get("/educations/{id}", education.getId()))
+        mockMvc.perform(get("/api/educations/{id}", education.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(education.getName()))
@@ -78,13 +80,14 @@ class EducationControllerTest {
 
     @DisplayName("교육 내용 변경")
     @Test
+    @WithMockUser
     void updateEducation() throws Exception {
         Education education = educationRepository.findAll().get(0);
 
         Map<String, String> map = new HashMap<>();
         map.put("name", "국사를 배우자");
         map.put("subject", "국사");
-        mockMvc.perform(put("/educations/{id}", education.getId())
+        mockMvc.perform(put("/api/educations/{id}", education.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(map)))
                 .andDo(print())
@@ -97,9 +100,10 @@ class EducationControllerTest {
 
     @DisplayName("교육 삭제")
     @Test
+    @WithMockUser
     void deleteEducation() throws Exception {
         Long id = educationRepository.findAll().get(0).getId();
-        mockMvc.perform(delete("/educations/{id}",  id))
+        mockMvc.perform(delete("/api/educations/{id}",  id))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,7 +59,7 @@ class AccountControllerTest {
     @DisplayName("계정 전체 조회")
     @Test
     void findAccounts() throws Exception {
-        mockMvc.perform(get("/accounts"))
+        mockMvc.perform(get("/api/accounts"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("dlo"));
@@ -66,9 +67,10 @@ class AccountControllerTest {
 
     @DisplayName("계정 단건 조회")
     @Test
+    @WithMockUser
     void findAccount() throws Exception {
         Long id = accountRepository.findAll().get(0).getId();
-        mockMvc.perform(get("/accounts/{id}",  id))
+        mockMvc.perform(get("/api/accounts/{id}",  id))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("dlo"));
@@ -76,6 +78,7 @@ class AccountControllerTest {
 
     @DisplayName("계정 변경")
     @Test
+    @WithMockUser
     void updateAccount() throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("name", "변경 고");
@@ -84,7 +87,7 @@ class AccountControllerTest {
         map.put("location", "판교");
 
         Long id = accountRepository.findAll().get(0).getId();
-        mockMvc.perform(put("/accounts/{id}",  id)
+        mockMvc.perform(put("/api/accounts/{id}",  id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(map)))
                 .andDo(print())
@@ -98,9 +101,10 @@ class AccountControllerTest {
 
     @DisplayName("계정 삭제")
     @Test
+    @WithMockUser
     void deleteAccount() throws Exception {
         Long id = accountRepository.findAll().get(0).getId();
-        mockMvc.perform(delete("/accounts/{id}",  id))
+        mockMvc.perform(delete("/api/accounts/{id}",  id))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
