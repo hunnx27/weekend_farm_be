@@ -2,6 +2,7 @@ package com.demo.modules.common.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.Embeddable;
 

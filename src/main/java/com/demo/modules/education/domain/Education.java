@@ -1,6 +1,7 @@
 package com.demo.modules.education.domain;
 
 import com.demo.modules.account.domain.Account;
+import com.demo.modules.common.domain.BaseEntity;
 import com.demo.modules.common.type.YN;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Education {
+public class Education extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -22,9 +23,6 @@ public class Education {
 
     private String name;
     private String subject;
-
-    @Enumerated(EnumType.STRING)
-    private YN isDelete = YN.N;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "education_account",
@@ -45,11 +43,10 @@ public class Education {
         this.accountsCount--;
     }
 
-    public Education(Long id, String name, String subject, YN isDelete, Set<Account> accounts, int accountsCount) {
+    public Education(Long id, String name, String subject, Set<Account> accounts, int accountsCount) {
         this.id = id;
         this.name = name;
         this.subject = subject;
-        this.isDelete = isDelete;
         this.accounts = accounts;
         this.accountsCount = accountsCount;
     }

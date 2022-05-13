@@ -1,13 +1,16 @@
 package com.demo.modules.common.domain;
 
+import com.demo.modules.common.type.YN;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -15,9 +18,12 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @UpdateTimestamp
     @Column(insertable = false)
-    private LocalDateTime modifiedAt;
+    private ZonedDateTime modifiedAt;
+
+    @Enumerated(EnumType.STRING)
+    private YN isDelete = YN.N;
 }

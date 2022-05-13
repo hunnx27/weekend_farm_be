@@ -1,8 +1,10 @@
 package com.demo.modules.account.domain;
 
 import com.demo.modules.account.application.request.AccountUpdateRequest;
+import com.demo.modules.common.domain.BaseEntity;
 import com.demo.modules.education.domain.Education;
 import com.demo.modules.common.type.YN;
+import com.demo.modules.organization.domain.Organization;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -17,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Account {
+public class Account extends BaseEntity {
 
     @Id @GeneratedValue
     private Long id;
@@ -30,12 +32,12 @@ public class Account {
     private String age;
     private String location;
 
-    @Enumerated(EnumType.STRING)
-    private YN isDelete = YN.N;
-
     @ManyToMany(mappedBy = "accounts")
     @JsonBackReference
     private Set<Education> educations = new HashSet<>();
+
+    @ManyToOne
+    private Organization organization;
 
     public void setUpdateData(AccountUpdateRequest account){
         this.name = account.getName();

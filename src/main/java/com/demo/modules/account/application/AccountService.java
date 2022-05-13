@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
-public class AccountService implements UserDetailsService {
+public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountConverter accountConverter;
@@ -71,16 +71,5 @@ public class AccountService implements UserDetailsService {
         return educationRepository.findEducationsByAccounts(account);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String nameOrEmail) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(nameOrEmail);
-        if(account == null){
-            account = accountRepository.findByName(nameOrEmail);
-        }
 
-        if(account == null){
-            throw new UsernameNotFoundException(nameOrEmail);
-        }
-        return new UserAccount(account);
-    }
 }
