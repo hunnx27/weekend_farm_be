@@ -1,6 +1,7 @@
 package com.demo;
 
-import com.demo.config.security.JwtProvider;
+import com.demo.common.util.CookieUtils;
+import com.demo.config.security.jwt.JwtProvider;
 import com.demo.config.security.UserDetailServiceImpl;
 import com.demo.modules.account.domain.Account;
 import com.demo.modules.account.domain.UserAccount;
@@ -64,6 +65,7 @@ public class MainController {
         response.setHeader("Authorization", token);
 
         Cookie cookie = new Cookie("Authorization", token);
+//        CookieUtils.addCookie(response, "Authorization", token, 180);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
@@ -71,4 +73,5 @@ public class MainController {
 
         return ResponseEntity.ok(token);
     }
+
 }

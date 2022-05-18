@@ -1,5 +1,6 @@
-package com.demo.config.security;
+package com.demo.config.security.jwt;
 
+import com.demo.config.security.UserDetailServiceImpl;
 import com.demo.modules.account.application.AccountService;
 import io.jsonwebtoken.*;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,11 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    @Value("${wnz.jwt.secret}")
+    @Value("${onz.jwt.secret}")
     private String secretKey;
 
     private final UserDetailServiceImpl userDetailService;
 
-    // JWT 토큰 생성
     public String createToken(Authentication principal) {
         Claims claims = Jwts.claims().setSubject(principal.getName());
         claims.put("roles", principal.getAuthorities());
@@ -53,6 +53,7 @@ public class JwtProvider {
                 .getSubject();
     }
 
+    // TODO: 2022/05/18 현재는 헤더에서 가져와 검증하고있다. 쿠키에 넣을지 말지 결정 후 사용하자
     public String resolveToken(HttpServletRequest request) {
         String token = null;
         Cookie cookie = WebUtils.getCookie(request, "Authorization");
@@ -60,7 +61,6 @@ public class JwtProvider {
         return token;
     }
 
-    // Jwt 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);

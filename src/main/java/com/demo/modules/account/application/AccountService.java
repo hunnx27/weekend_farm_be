@@ -2,6 +2,7 @@ package com.demo.modules.account.application;
 
 import com.demo.modules.account.application.request.AccountUpdateRequest;
 import com.demo.modules.account.domain.UserAccount;
+import com.demo.modules.account.type.Role;
 import com.demo.modules.education.application.EducationService;
 import com.demo.modules.education.domain.Education;
 import com.demo.modules.education.infra.EducationRepository;
@@ -37,6 +38,7 @@ public class AccountService {
 
     public Account create(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRole(Role.USER);
         return accountRepository.save(account);
     }
 

@@ -1,4 +1,4 @@
-package com.demo.config.security;
+package com.demo.config.security.exception;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

@@ -30,6 +30,6 @@ logging:
         http:
           client: trace
 
-wnz:
+onz:
   jwt:
-    secret: dToxCeaNn6
+    secret: UFMgZFP4ciZDx/FfK3U16X6Mm3M=

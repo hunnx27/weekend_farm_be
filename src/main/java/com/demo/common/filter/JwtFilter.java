@@ -1,8 +1,7 @@
 package com.demo.common.filter;
 
-import com.demo.config.security.JwtProvider;
+import com.demo.config.security.jwt.JwtProvider;
 import com.demo.config.security.UserAuthentication;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;

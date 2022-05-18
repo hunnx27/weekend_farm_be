@@ -1,4 +1,4 @@
-package com.demo.config.security;
+package com.demo.config.security.exception;
 
 import com.google.gson.JsonObject;
 import org.springframework.security.access.AccessDeniedException;

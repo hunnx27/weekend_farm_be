@@ -1,4 +1,4 @@
-package com.demo.config.security;
+package com.demo.config.security.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
