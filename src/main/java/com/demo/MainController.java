@@ -1,8 +1,8 @@
 package com.demo;
 
 import com.demo.common.util.CookieUtils;
-import com.demo.config.security.jwt.JwtProvider;
 import com.demo.config.security.UserDetailServiceImpl;
+import com.demo.config.security.jwt.JwtProvider;
 import com.demo.modules.account.domain.Account;
 import com.demo.modules.account.domain.UserAccount;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -64,12 +63,7 @@ public class MainController {
         String token = jwtProvider.createToken(authentication);
         response.setHeader("Authorization", token);
 
-        Cookie cookie = new Cookie("Authorization", token);
-//        CookieUtils.addCookie(response, "Authorization", token, 180);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        response.addCookie(cookie);
+        CookieUtils.addCookie(response, "Authorization", token, 180);
 
         return ResponseEntity.ok(token);
     }

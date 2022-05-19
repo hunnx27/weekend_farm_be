@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewTestController {
 
 
-    @GetMapping("/login")
+    @GetMapping("/index")
     public String login(){
         return "index";
     }

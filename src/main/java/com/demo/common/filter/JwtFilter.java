@@ -1,9 +1,8 @@
 package com.demo.common.filter;
 
 import com.demo.config.security.jwt.JwtProvider;
-import com.demo.config.security.UserAuthentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,12 +26,13 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwtFromRequest(request);
             if (StringUtils.hasLength(jwt) && provider.validateToken(jwt)) {
-                String userName = provider.getAuthentication(jwt).getName();
+                Authentication authentication1 = provider.getAuthentication(jwt);
+//                String userName = authentication1.getName();
+//
+//                UserAuthentication authentication = new UserAuthentication(userName, null, authentication1.getAuthorities());
+//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                UserAuthentication authentication = new UserAuthentication(userName, null, null);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication1);
             } else {
                 if (!StringUtils.hasText(jwt)) {
                     request.setAttribute("unauthorization", "there is no token");
@@ -50,10 +50,14 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = provider.resolveToken(request);
+
+        if(!StringUtils.hasText(bearerToken))
+            bearerToken = request.getHeader("Authorization");
+
         if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring("Bearer ".length());
         }
-        return null;
+        return bearerToken;
     }
 }

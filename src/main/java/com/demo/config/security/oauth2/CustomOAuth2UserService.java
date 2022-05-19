@@ -3,21 +3,16 @@ package com.demo.config.security.oauth2;
 import com.demo.modules.account.domain.Account;
 import com.demo.modules.account.domain.UserAccount;
 import com.demo.modules.account.infra.AccountRepository;
-import com.demo.modules.account.type.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -43,11 +38,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes of = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         Account account = saveOrUpdate(of);
-        httpSession.setAttribute("user", account.toAccount(oAuth2User));
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(Role.USER.name())),
-                of.getAttributes(),
-                of.getNameAttributeKey());
+        return UserAccount.to(account);
+//        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(Role.USER.name())),
+//                of.getAttributes(),
+//                of.getNameAttributeKey());
     }
 
     private Account saveOrUpdate(OAuthAttributes of) {

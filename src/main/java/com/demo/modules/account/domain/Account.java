@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -53,6 +54,7 @@ public class Account extends BaseEntity {
         this.name = name;
         this.email = email;
         this.profileImage = picture;
+        this.role = Role.USER;
     }
 
     public void setUpdateData(AccountUpdateRequest account){
@@ -65,6 +67,7 @@ public class Account extends BaseEntity {
     public Account update(String name, String picture){
         this.name = name;
         this.profileImage = picture;
+        if(Objects.isNull(this.role)) this.role = Role.USER;
 
         return this;
     }

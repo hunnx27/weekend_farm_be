@@ -6,25 +6,27 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 @Getter
-public class UserAccount extends User implements OAuth2User{
+public class UserAccount extends User implements OAuth2User {
 
     private final Account account;
 
     private Map<String, Object> attributes;
 
-    public UserAccount(Account account){
+    public UserAccount(Account account) {
         super(account.getName(), account.getPassword(), Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
         this.account = account;
     }
 
+    public UserAccount(Account account, String password) {
+        super(account.getEmail(), password, Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
+        this.account = account;
+    }
 
     @Override
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -74,12 +76,16 @@ public class UserAccount extends User implements OAuth2User{
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> authList = new ArrayList<>();
-        authList.add(new SimpleGrantedAuthority(account.getRole().toString()));
+        authList.add(new SimpleGrantedAuthority(account.getRole().getRole()));
         return authList;
     }
 
     @Override
     public String getName() {
         return account.getName();
+    }
+
+    public static UserAccount to(Account account){
+        return new UserAccount(account, "");
     }
 }
