@@ -2,6 +2,7 @@ package com.demo.config.security.oauth2;
 
 import com.demo.config.security.exception.CustomAuthenticationException;
 import com.demo.modules.account.domain.Account;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class OAuthAttributes {
     private String email;
     private String picture;
 
+    @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
@@ -32,6 +34,8 @@ public class OAuthAttributes {
 
         if(id.equalsIgnoreCase(RestrictionProvider.KAKAO.name())){
             return ofKakao(name, attributes);
+        }else if(id.equalsIgnoreCase(RestrictionProvider.GOOGLE.name())){
+            return ofGoogle(name, attributes);
         }
 
         return null;
@@ -41,11 +45,23 @@ public class OAuthAttributes {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
-        return new OAuthAttributes(attributes,
-                name,
-                (String) profile.get("nickname"),
-                (String) kakaoAccount.get("email"),
-                (String) profile.get("profile_image_url"));
+        return OAuthAttributes.builder()
+                .name((String) profile.get("nickname"))
+                .email((String) kakaoAccount.get("email"))
+                .picture((String) profile.get("profile_image_url"))
+                .nameAttributeKey(name)
+                .attributes(attributes)
+                .build();
+    }
+
+    private static OAuthAttributes ofGoogle(String name, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .picture((String) attributes.get("picture"))
+                .attributes(attributes)
+                .nameAttributeKey(name)
+                .build();
     }
     public Account toEntity(){
         return new Account(name, email, picture);

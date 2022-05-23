@@ -30,10 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final UserDetailServiceImpl userDetailService;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
-
     @GetMapping("/hello")
     public HttpStatus hello() {
         return HttpStatus.OK;
@@ -48,24 +44,6 @@ public class MainController {
         }
         log.info(String.valueOf(req));
         log.info(String.valueOf(model));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(HttpServletResponse response, @RequestParam String name, @RequestParam String password) {
-        UserDetails principal = userDetailService.loadUserByUsername(name);
-        if (!passwordEncoder.matches(password, principal.getPassword()))
-            throw new UsernameNotFoundException("invalid Password");
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-
-        String token = jwtProvider.createToken(authentication);
-        response.setHeader("Authorization", token);
-
-        CookieUtils.addCookie(response, "Authorization", token, 180);
-
-        return ResponseEntity.ok(token);
     }
 
 }
