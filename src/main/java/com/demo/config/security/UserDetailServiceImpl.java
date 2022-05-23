@@ -28,6 +28,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if(account == null){
             throw new UsernameNotFoundException(nameOrEmail);
         }
-        return new UserAccount(account);
+        return UserAccount.to(account);
     }
 }

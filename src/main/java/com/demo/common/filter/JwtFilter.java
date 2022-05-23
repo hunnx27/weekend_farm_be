@@ -1,8 +1,10 @@
 package com.demo.common.filter;
 
 import com.demo.config.security.jwt.JwtProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,7 +28,11 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String jwt = getJwtFromRequest(request);
             if (StringUtils.hasLength(jwt) && provider.validateToken(jwt)) {
-                Authentication authentication1 = provider.getAuthentication(jwt);
+                // TODO: 2022/05/20 OAuth로 인증하면 비밀번호가 없는데 기존 로그인에 쓰이던 유저패스워드검증 방식으로 해서 에러 남. 유저디테일스로 바꾸고 암튼 바꿔보기
+//                Authentication authentication1 = provider.getAuthentication(jwt);
+                UsernamePasswordAuthenticationToken authentication1 = provider.getAuthentication(jwt);
+
+                authentication1.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 //                String userName = authentication1.getName();
 //
 //                UserAuthentication authentication = new UserAuthentication(userName, null, authentication1.getAuthorities());

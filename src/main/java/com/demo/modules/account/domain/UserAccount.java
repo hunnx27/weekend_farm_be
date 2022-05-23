@@ -8,11 +8,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
 @Getter
-public class UserAccount extends User implements OAuth2User {
+public class UserAccount extends User implements OAuth2User, UserDetails {
 
     private final Account account;
 
@@ -86,6 +87,10 @@ public class UserAccount extends User implements OAuth2User {
     }
 
     public static UserAccount to(Account account){
-        return new UserAccount(account, "");
+        String password;
+        if(StringUtils.hasText(account.getPassword())) password = account.getPassword();
+        else password = "";
+
+        return new UserAccount(account, password);
     }
 }

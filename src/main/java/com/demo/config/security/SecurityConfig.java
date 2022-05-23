@@ -4,14 +4,14 @@ import com.demo.common.filter.JwtFilter;
 import com.demo.config.security.exception.AccessDeniedHandlerImpl;
 import com.demo.config.security.exception.JwtAuthenticationEntryPointImpl;
 import com.demo.config.security.jwt.JwtProvider;
-import com.demo.config.security.oauth2.CustomAuthenticationSuccessHandler;
+import com.demo.config.security.oauth2.OAuth2AuthenticationFailureHandler;
+import com.demo.config.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.demo.config.security.oauth2.CustomOAuth2UserService;
+import com.demo.config.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final JwtProvider jwtProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -43,10 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/index").not().fullyAuthenticated()
-                .antMatchers(HttpMethod.POST, "/api/accounts").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .antMatchers("/", "/hello").hasRole("USER")
+                .antMatchers("/login", "/index").not().authenticated()
+//                .antMatchers(HttpMethod.POST, "/api/accounts").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+//                .antMatchers("/", "/hello").hasAnyRole()
                 .anyRequest().authenticated();
 
 //        http.exceptionHandling()
@@ -60,7 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.oauth2Login()
                 .defaultSuccessUrl("/login-success")
-                .successHandler(customAuthenticationSuccessHandler)
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler)
+                .authorizationEndpoint()
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                .and()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
 
@@ -78,14 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Bean
-    DaoAuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        daoAuthenticationProvider.setUserDetailsService(userDetailService);
-
-        return daoAuthenticationProvider;
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository(){
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
-
 
 }
