@@ -1,5 +1,7 @@
 package com.demo.modules.education.web;
 
+import com.demo.infra.MockMvcTest;
+import com.demo.modules.account.web.WithAccount;
 import com.demo.modules.education.application.EducationService;
 import com.demo.modules.education.domain.Education;
 import com.demo.modules.education.infra.EducationRepository;
@@ -20,15 +22,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.demo.common.testenv.WithAccountFixture.USERNAME;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
+@MockMvcTest
 class EducationControllerTest {
 
     @Autowired
@@ -58,6 +59,7 @@ class EducationControllerTest {
 
     @DisplayName("교육 전체 조회")
     @Test
+    @WithAccount(USERNAME)
     void findEducations() throws Exception {
         mockMvc.perform(get("/api/educations"))
                 .andDo(print())
@@ -67,7 +69,7 @@ class EducationControllerTest {
 
     @DisplayName("교육 단건 조회")
     @Test
-    @WithMockUser
+    @WithAccount(USERNAME)
     void findEducation() throws Exception {
         Education education = educationRepository.findAll().get(0);
 
@@ -80,7 +82,7 @@ class EducationControllerTest {
 
     @DisplayName("교육 내용 변경")
     @Test
-    @WithMockUser
+    @WithAccount(USERNAME)
     void updateEducation() throws Exception {
         Education education = educationRepository.findAll().get(0);
 
@@ -100,7 +102,7 @@ class EducationControllerTest {
 
     @DisplayName("교육 삭제")
     @Test
-    @WithMockUser
+    @WithAccount(USERNAME)
     void deleteEducation() throws Exception {
         Long id = educationRepository.findAll().get(0).getId();
         mockMvc.perform(delete("/api/educations/{id}",  id))

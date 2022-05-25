@@ -6,6 +6,10 @@ Boiler Plate
 - DB handling: JPA, QueryDsl
 - build: Maven
 
+## Code Style Guide
+[링크](https://velog.io/@injoon2019/IntelliJ%EC%97%90-Google-Java-Style-Guide-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
+- 위 블로그를 참고해 코드 스타일을 맞추고 개발
+
 ## BUILD
 - mvn clean build
 - 빌드가 되야지만 QueryDsl에서 이용되는 QClass가 생성됨
@@ -31,7 +35,3 @@ create user 'plates'@'%' identified by 'plates!Q@W#E4r';
 grant all privileges on *.* to 'plates'@'%';
 flush privileges;
 ```
-
-## Code Style Guide
-[링크](https://velog.io/@injoon2019/IntelliJ%EC%97%90-Google-Java-Style-Guide-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
-- 위 블로그를 참고해 코드 스타일을 맞추고 개발

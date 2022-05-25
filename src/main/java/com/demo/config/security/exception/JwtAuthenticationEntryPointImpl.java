@@ -17,7 +17,7 @@ public class JwtAuthenticationEntryPointImpl implements AuthenticationEntryPoint
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException authException) throws IOException, ServletException {
+        AuthenticationException authException) throws IOException {
         log.error("Responding with unauthorized error. Message - {}", authException.getMessage());
 
         String attribute = (String) request.getAttribute("unauthorization.code");
