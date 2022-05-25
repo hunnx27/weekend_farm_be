@@ -22,7 +22,8 @@ public class AccountInfo {
 
     @Getter
     @Setter
-    private static class Educations{
+    private static class Educations {
+
         private Long id;
         private String name;
         private String subject;

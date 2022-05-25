@@ -20,12 +20,16 @@ public class UserAccount extends User implements OAuth2User, UserDetails {
     private Map<String, Object> attributes;
 
     public UserAccount(Account account) {
-        super(account.getName(), account.getPassword(), Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
+        super(account.getName(),
+            account.getPassword(),
+            Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
         this.account = account;
     }
 
     public UserAccount(Account account, String password) {
-        super(account.getEmail(), password, Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
+        super(account.getEmail(),
+            password,
+            Collections.singleton(new SimpleGrantedAuthority(Role.USER.getRole())));
         this.account = account;
     }
 
@@ -87,17 +91,21 @@ public class UserAccount extends User implements OAuth2User, UserDetails {
     }
 
     /**
-     * OAUth2 로그인 시 비밀번호가 없기때문에 그대로 password가 null인채로 User클래스에 담게되면 에러가 발생항.
-     * 이를 방지하기 위해 OAUth2일 시 password를 ""로 담는다.
+     * OAUth2 로그인 시 비밀번호가 없기때문에 그대로 password가 null인채로 User클래스에 담게되면 에러가 발생항. 이를 방지하기 위해 OAUth2일 시
+     * password를 ""로 담는다.
+     *
      * @param account
      * @return
      */
-    public static UserAccount to(Account account){
+    public static UserAccount to(Account account) {
         String password;
         // TODO: 2022/05/23 데이터 마이그레이션 시 아래 이메일 인증필드를 사용할 수 있는지 확인 필요
 //        if(account.isEmailVerified())
-        if(StringUtils.hasText(account.getPassword())) password = account.getPassword();
-        else password = "";
+        if (StringUtils.hasText(account.getPassword())) {
+            password = account.getPassword();
+        } else {
+            password = "";
+        }
 
         return new UserAccount(account, password);
     }

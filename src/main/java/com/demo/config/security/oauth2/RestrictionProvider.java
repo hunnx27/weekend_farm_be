@@ -1,13 +1,15 @@
 package com.demo.config.security.oauth2;
 
+import java.util.Arrays;
+
 public enum RestrictionProvider {
     KAKAO, GOOGLE, FACEBOOK;
 
-    public static RestrictionProvider of(String id){
-        for (RestrictionProvider provider : RestrictionProvider.values()){
-            if(provider.name().equalsIgnoreCase(id)) return provider;
-        }
-        return null;
+    public static RestrictionProvider of(String id) {
+        return Arrays.stream(RestrictionProvider.values())
+            .filter(provider -> provider.name().equalsIgnoreCase(id))
+            .findFirst()
+            .orElse(null);
     }
 
 }

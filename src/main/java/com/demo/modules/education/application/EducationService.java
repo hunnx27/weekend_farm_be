@@ -20,6 +20,7 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 @Transactional
 public class EducationService {
+
     private final EducationRepository educationRepository;
     private final AccountRepository accountRepository;
 
@@ -33,11 +34,12 @@ public class EducationService {
 
     public Education detail(Long id) {
         return educationRepository.findById(id)
-                .orElseThrow();
+            .orElseThrow();
     }
 
     public Education update(EducationUpdateRequest educationUpdateRequest) {
-        Education education = educationRepository.findById(educationUpdateRequest.getId()).orElseThrow();
+        Education education = educationRepository.findById(educationUpdateRequest.getId())
+            .orElseThrow();
         education.setName(educationUpdateRequest.getName());
         education.setSubject(educationUpdateRequest.getSubject());
         return educationRepository.save(education);
@@ -45,35 +47,35 @@ public class EducationService {
 
     public Education join(Long id, Long accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElse(new Account());
+            .orElse(new Account());
 
         return educationRepository.findById(id)
-                .map(x -> {
-                    if(!x.getAccounts().contains(account)){
-                        x.addAccount(account);
-                        educationRepository.save(x);
-                    }
-                    return x;
-                }).orElseThrow();
+            .map(x -> {
+                if (!x.getAccounts().contains(account)) {
+                    x.addAccount(account);
+                    educationRepository.save(x);
+                }
+                return x;
+            }).orElseThrow();
     }
 
     public Education leave(Long id, Long accountId) {
         Account account = accountRepository.findById(accountId)
-                .orElse(new Account());
+            .orElse(new Account());
 
         return educationRepository.findById(id)
-                .map(x -> {
-                    if(x.getAccounts().contains(account)){
-                        x.removeAccount(account);
-                        educationRepository.save(x);
-                    }
-                    return x;
-                }).orElseThrow();
+            .map(x -> {
+                if (x.getAccounts().contains(account)) {
+                    x.removeAccount(account);
+                    educationRepository.save(x);
+                }
+                return x;
+            }).orElseThrow();
     }
 
     public boolean delete(Long id) {
         educationRepository.findById(id)
-                .ifPresent(x -> x.setAccounts(new HashSet<>()));
+            .ifPresent(x -> x.setAccounts(new HashSet<>()));
         return educationRepository.deleteEducation(id);
     }
 

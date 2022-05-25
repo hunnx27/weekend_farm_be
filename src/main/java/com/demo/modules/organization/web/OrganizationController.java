@@ -33,7 +33,8 @@ public class OrganizationController extends BaseApiController {
     }
 
     @PatchMapping("/organizations/{id}")
-    public void update(@PathVariable Long id, @RequestBody OrganizationUpdateRequest updateRequest) {
+    public void update(@PathVariable Long id,
+        @RequestBody OrganizationUpdateRequest updateRequest) {
         updateRequest.setId(id);
         organizationService.update(updateRequest);
     }

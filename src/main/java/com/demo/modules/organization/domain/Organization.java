@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 public class Organization extends BaseEntity {
+
     @Id
     @GeneratedValue
     private Long id;

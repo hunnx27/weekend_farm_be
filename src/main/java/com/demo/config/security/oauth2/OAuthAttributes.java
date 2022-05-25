@@ -14,6 +14,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class OAuthAttributes {
+
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;
@@ -21,7 +22,8 @@ public class OAuthAttributes {
     private String picture;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name,
+        String email, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
@@ -29,12 +31,14 @@ public class OAuthAttributes {
         this.picture = picture;
     }
 
-    public static OAuthAttributes of(String id, String name, Map<String, Object> attributes){
-        if(RestrictionProvider.of(id) == null) throw new CustomAuthenticationException(id + " 는 호환되지 않는 소셜 로그인입니다.");
+    public static OAuthAttributes of(String id, String name, Map<String, Object> attributes) {
+        if (RestrictionProvider.of(id) == null) {
+            throw new CustomAuthenticationException(id + " 는 호환되지 않는 소셜 로그인입니다.");
+        }
 
-        if(id.equalsIgnoreCase(RestrictionProvider.KAKAO.name())){
+        if (id.equalsIgnoreCase(RestrictionProvider.KAKAO.name())) {
             return ofKakao(name, attributes);
-        }else if(id.equalsIgnoreCase(RestrictionProvider.GOOGLE.name())){
+        } else if (id.equalsIgnoreCase(RestrictionProvider.GOOGLE.name())) {
             return ofGoogle(name, attributes);
         }
 
@@ -46,24 +50,25 @@ public class OAuthAttributes {
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
         return OAuthAttributes.builder()
-                .name((String) profile.get("nickname"))
-                .email((String) kakaoAccount.get("email"))
-                .picture((String) profile.get("profile_image_url"))
-                .nameAttributeKey(name)
-                .attributes(attributes)
-                .build();
+            .name((String) profile.get("nickname"))
+            .email((String) kakaoAccount.get("email"))
+            .picture((String) profile.get("profile_image_url"))
+            .nameAttributeKey(name)
+            .attributes(attributes)
+            .build();
     }
 
     private static OAuthAttributes ofGoogle(String name, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
-                .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
-                .picture((String) attributes.get("picture"))
-                .attributes(attributes)
-                .nameAttributeKey(name)
-                .build();
+            .name((String) attributes.get("name"))
+            .email((String) attributes.get("email"))
+            .picture((String) attributes.get("picture"))
+            .attributes(attributes)
+            .nameAttributeKey(name)
+            .build();
     }
-    public Account toEntity(){
+
+    public Account toEntity() {
         return new Account(name, email, picture);
     }
 }

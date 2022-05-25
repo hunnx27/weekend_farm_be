@@ -32,6 +32,6 @@ public class OrganizationService {
 
     public Organization findOne(Long id) {
         return organizationRepository.findById(id)
-                .orElseThrow();
+            .orElseThrow();
     }
 }

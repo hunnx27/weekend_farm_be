@@ -7,6 +7,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface AccountConverter {
 
-    void updateAccountFromDto(AccountUpdateRequest accountUpdateRequest, @MappingTarget Account account);
+    void updateAccountFromDto(AccountUpdateRequest accountUpdateRequest,
+        @MappingTarget Account account);
 
 }

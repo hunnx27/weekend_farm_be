@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 @Setter
 @MappedSuperclass
 public class BaseEntity {
+
     @CreationTimestamp
     @Column(updatable = false)
     private ZonedDateTime createdAt;

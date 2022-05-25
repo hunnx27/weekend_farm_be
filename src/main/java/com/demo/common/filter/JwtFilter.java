@@ -23,16 +23,19 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+        FilterChain filterChain)
+        throws ServletException, IOException {
+        logger.info(request.getRequestURL().toString());
         try {
             String jwt = getJwtFromRequest(request);
             if (StringUtils.hasLength(jwt) && provider.validateToken(jwt)) {
-                // TODO: 2022/05/20 OAuth로 인증하면 비밀번호가 없는데 기존 로그인에 쓰이던 유저패스워드검증 방식으로 해서 에러 남. 유저디테일스로 바꾸고 암튼 바꿔보기
 //                Authentication authentication1 = provider.getAuthentication(jwt);
-                UsernamePasswordAuthenticationToken authentication1 = provider.getAuthentication(jwt);
+                UsernamePasswordAuthenticationToken authentication1 = provider.getAuthentication(
+                    jwt);
 
-                authentication1.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                authentication1.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request));
 //                String userName = authentication1.getName();
 //
 //                UserAuthentication authentication = new UserAuthentication(userName, null, authentication1.getAuthorities());
@@ -58,8 +61,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = provider.resolveToken(request);
 
-        if(!StringUtils.hasText(bearerToken))
+        if (!StringUtils.hasText(bearerToken)) {
             bearerToken = request.getHeader("Authorization");
+        }
 
         if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring("Bearer ".length());

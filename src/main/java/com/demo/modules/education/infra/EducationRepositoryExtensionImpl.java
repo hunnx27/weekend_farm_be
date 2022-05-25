@@ -17,7 +17,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
-public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport implements EducationRepositoryExtension {
+public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport implements
+    EducationRepositoryExtension {
+
     private final JPAQueryFactory queryFactory;
 
     public EducationRepositoryExtensionImpl(JPAQueryFactory queryFactory) {
@@ -26,7 +28,8 @@ public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport 
     }
 
     @Override
-    public Page<Education> educations(EducationSearchRequest educationSearchRequest, Pageable pageable) {
+    public Page<Education> educations(EducationSearchRequest educationSearchRequest,
+        Pageable pageable) {
         QEducation education = QEducation.education;
         BooleanBuilder where = new BooleanBuilder();
         where.and(education.isDelete.eq(YN.N));
@@ -39,12 +42,12 @@ public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport 
         }
 
         JPQLQuery<Education> result = from(education)
-                .leftJoin(education.accounts, QAccount.account).fetchJoin()
-                .where(where);
+            .leftJoin(education.accounts, QAccount.account).fetchJoin()
+            .where(where);
 
         JPQLQuery<Education> query = Objects
-                .requireNonNull(getQuerydsl())
-                .applyPagination(pageable, result);
+            .requireNonNull(getQuerydsl())
+            .applyPagination(pageable, result);
 
         QueryResults<Education> queryResults = query.fetchResults();
         return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
@@ -54,10 +57,10 @@ public class EducationRepositoryExtensionImpl extends QuerydslRepositorySupport 
     public boolean deleteEducation(Long id) {
         QEducation education = QEducation.education;
         return update(education)
-                .set(education.isDelete, YN.Y)
-                .where(education.isDelete.eq(YN.N)
-                        .and(education.id.eq(id)))
-                .execute() == 1L;
+            .set(education.isDelete, YN.Y)
+            .where(education.isDelete.eq(YN.N)
+                .and(education.id.eq(id)))
+            .execute() == 1L;
     }
 
 

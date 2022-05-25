@@ -46,22 +46,23 @@ public class AccountService {
         return accountRepository.accounts(accountSearchRequest, pageable);
     }
 
-    public Account findOne(Long id){
+    public Account findOne(Long id) {
         return accountRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+            .orElseThrow(NoSuchElementException::new);
     }
 
     public Long update(AccountUpdateRequest account) {
         Account findOne = accountRepository.findById(account.getId())
-                .orElseThrow(NoSuchElementException::new);
+            .orElseThrow(NoSuchElementException::new);
         findOne.setUpdateData(account);
         return accountRepository.save(findOne).getId();
     }
 
     public boolean delete(Long id) {
         Account account = accountRepository.deleteAccount(id);
-        if(account.getIsDelete().equals(YN.Y)){
-            List<Education> educationsByAccounts = educationRepository.findEducationsByAccounts(account);
+        if (account.getIsDelete().equals(YN.Y)) {
+            List<Education> educationsByAccounts = educationRepository.findEducationsByAccounts(
+                account);
             educationsByAccounts.forEach(education -> education.removeAccount(account));
         }
 

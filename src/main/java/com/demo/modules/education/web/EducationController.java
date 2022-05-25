@@ -23,40 +23,42 @@ public class EducationController extends BaseApiController {
 
     @PostMapping("/educations")
     public ResponseEntity<?> create(@RequestBody EducationCreateRequest educationCreateRequest) {
-        return ResponseEntity.ok(eduCationService.create(modelMapper.map(educationCreateRequest, Education.class)));
+        return ResponseEntity.ok(
+            eduCationService.create(modelMapper.map(educationCreateRequest, Education.class)));
     }
 
     @GetMapping("/educations")
     public ResponseEntity<?> list(
-            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
-            Pageable pageable,
-            EducationSearchRequest educationSearchRequest) {
+        @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
+        Pageable pageable,
+        EducationSearchRequest educationSearchRequest) {
         return ResponseEntity.ok(eduCationService.list(educationSearchRequest, pageable));
     }
 
     @GetMapping("/educations/{id}")
-    public ResponseEntity<?> list(@PathVariable Long id){
+    public ResponseEntity<?> list(@PathVariable Long id) {
         return ResponseEntity.ok(eduCationService.detail(id));
     }
 
     @PutMapping("/educations/{id}")
-    public ResponseEntity<?> update(@RequestBody EducationUpdateRequest educationUpdateRequest, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody EducationUpdateRequest educationUpdateRequest,
+        @PathVariable Long id) {
         educationUpdateRequest.setId(id);
         return ResponseEntity.ok(eduCationService.update(educationUpdateRequest));
     }
 
     @DeleteMapping("/educations/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return ResponseEntity.ok(eduCationService.delete(id));
     }
 
     @PostMapping("/educations/{id}/join")
-    public ResponseEntity<?> join(@PathVariable Long id, Long accountId){
+    public ResponseEntity<?> join(@PathVariable Long id, Long accountId) {
         return ResponseEntity.ok(eduCationService.join(id, accountId));
     }
 
     @PostMapping("/educations/{id}/leave")
-    public ResponseEntity<?> leave(@PathVariable Long id, Long accountId){
+    public ResponseEntity<?> leave(@PathVariable Long id, Long accountId) {
         return ResponseEntity.ok(eduCationService.leave(id, accountId));
     }
 

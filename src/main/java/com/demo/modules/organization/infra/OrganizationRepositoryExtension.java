@@ -6,7 +6,8 @@ import com.demo.modules.organization.application.request.OrganizationUpdateReque
 import com.demo.modules.organization.domain.Organization;
 import org.springframework.data.domain.PageImpl;
 
-public interface OrganizationRepositoryExtension{
+public interface OrganizationRepositoryExtension {
+
     PageImpl<Organization> list(OrganizationSearchRequest organizationSearchRequest);
 
     void update(OrganizationUpdateRequest updateRequest);

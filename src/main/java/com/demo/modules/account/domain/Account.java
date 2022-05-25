@@ -25,7 +25,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Account extends BaseEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
@@ -57,23 +58,28 @@ public class Account extends BaseEntity {
         this.role = Role.USER;
     }
 
-    public void setUpdateData(AccountUpdateRequest account){
+    public void setUpdateData(AccountUpdateRequest account) {
         this.name = account.getName();
         this.email = account.getEmail();
         this.age = account.getAge();
         this.location = account.getLocation();
     }
 
-    public Account update(String name, String picture){
+    public Account update(String name, String picture) {
         this.name = name;
         this.profileImage = picture;
-        if(Objects.isNull(this.role)) this.role = Role.USER;
+        if (Objects.isNull(this.role)) {
+            this.role = Role.USER;
+        }
 
         return this;
     }
 
-    public Account toAccount(OAuth2User oAuth2User){
+    public Account toAccount(OAuth2User oAuth2User) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        return new Account((String)attributes.get("name"),(String)attributes.get("email"),(String)attributes.get("picture"));
+        return new Account(
+            (String) attributes.get("name"),
+            (String) attributes.get("email"),
+            (String) attributes.get("picture"));
     }
 }

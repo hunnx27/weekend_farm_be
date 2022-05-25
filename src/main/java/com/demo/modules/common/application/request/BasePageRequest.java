@@ -10,7 +10,7 @@ public class BasePageRequest {
 
     protected int page = 0;
 
-    public Pageable getPageable(){
+    public Pageable getPageable() {
         return PageRequest.of(page, size);
     }
 }

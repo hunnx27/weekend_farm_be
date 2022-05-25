@@ -14,9 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.util.StringUtils;
 
-public class OrganizationRepositoryExtensionImpl extends QuerydslRepositorySupport implements OrganizationRepositoryExtension{
+public class OrganizationRepositoryExtensionImpl extends QuerydslRepositorySupport implements
+    OrganizationRepositoryExtension {
 
     private final JPAQueryFactory jpaQueryFactory;
+
     public OrganizationRepositoryExtensionImpl(JPAQueryFactory jpaQueryFactory) {
         super(Organization.class);
         this.jpaQueryFactory = jpaQueryFactory;
@@ -31,19 +33,21 @@ public class OrganizationRepositoryExtensionImpl extends QuerydslRepositorySuppo
         BooleanBuilder where = new BooleanBuilder();
         where.and(organization.isDelete.eq(YN.N));
 
-        if(StringUtils.hasText(organizationSearchRequest.getCode())){
+        if (StringUtils.hasText(organizationSearchRequest.getCode())) {
             where.and(organization.code.eq(organizationSearchRequest.getCode()));
         }
-        if(StringUtils.hasText(organizationSearchRequest.getName())){
+        if (StringUtils.hasText(organizationSearchRequest.getName())) {
             where.and(organization.name.eq(organizationSearchRequest.getName()));
         }
-        if(StringUtils.hasText(organizationSearchRequest.getAddress())){
-            where.and(organization.address.city.like("%" + organizationSearchRequest.getAddress() + "%")
-                    .or(organization.address.street.like("%" + organizationSearchRequest.getAddress() + "%")));
+        if (StringUtils.hasText(organizationSearchRequest.getAddress())) {
+            where.and(
+                organization.address.city.like("%" + organizationSearchRequest.getAddress() + "%")
+                    .or(organization.address.street.like(
+                        "%" + organizationSearchRequest.getAddress() + "%")));
         }
 
         JPQLQuery<Organization> result = from(organization)
-                .where(where);
+            .where(where);
 
         JPQLQuery<Organization> query = getQuerydsl().applyPagination(pageable, result);
         QueryResults<Organization> fetchResults = query.fetchResults();
@@ -54,8 +58,8 @@ public class OrganizationRepositoryExtensionImpl extends QuerydslRepositorySuppo
     public void update(OrganizationUpdateRequest updateRequest) {
         QOrganization organization = QOrganization.organization;
         update(organization)
-                .set(organization.name, updateRequest.getName())
-                .where(organization.id.eq(updateRequest.getId()))
-                .execute();
+            .set(organization.name, updateRequest.getName())
+            .where(organization.id.eq(updateRequest.getId()))
+            .execute();
     }
 }

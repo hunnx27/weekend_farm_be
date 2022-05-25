@@ -34,43 +34,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .formLogin().disable()
-                .cors().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated();
+            .httpBasic().disable()
+            .csrf().disable()
+            .formLogin().disable()
+            .cors().and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+            .antMatchers("/login").not().fullyAuthenticated()
+            .antMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated();
 
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPoint)
-//                .accessDeniedHandler(accessDeniedHandler)
-//                .and()
-//                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler);
 
         http.logout()
-                .logoutSuccessUrl("/");
+            .logoutSuccessUrl("/");
 
         http.oauth2Login()
-                .defaultSuccessUrl("/login-success")
-                .successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler)
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-                .and()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
+            .defaultSuccessUrl("/login-success")
+            .successHandler(oAuth2AuthenticationSuccessHandler)
+            .failureHandler(oAuth2AuthenticationFailureHandler)
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorization")
+            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+            .and()
+            .userInfoEndpoint()
+            .userService(customOAuth2UserService);
 
-        http.addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtFilter(jwtProvider),
+            UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository(){
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
         return new HttpCookieOAuth2AuthorizationRequestRepository();
     }
 

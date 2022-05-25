@@ -15,12 +15,13 @@ public class AppConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
-                .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
-                .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
+            .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
+            .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
         return modelMapper;
     }
 }

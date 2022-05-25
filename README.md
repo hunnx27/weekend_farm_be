@@ -32,3 +32,6 @@ grant all privileges on *.* to 'plates'@'%';
 flush privileges;
 ```
 
+## Code Style Guide
+[링크](https://velog.io/@injoon2019/IntelliJ%EC%97%90-Google-Java-Style-Guide-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
+- 위 블로그를 참고해 코드 스타일을 맞추고 개발

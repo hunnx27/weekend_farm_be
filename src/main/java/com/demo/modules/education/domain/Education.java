@@ -26,8 +26,8 @@ public class Education extends BaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "education_account",
-            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id")
+        joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id")
     )
     private Set<Account> accounts = new HashSet<>();
 
@@ -43,7 +43,8 @@ public class Education extends BaseEntity {
         this.accountsCount--;
     }
 
-    public Education(Long id, String name, String subject, Set<Account> accounts, int accountsCount) {
+    public Education(Long id, String name, String subject, Set<Account> accounts,
+        int accountsCount) {
         this.id = id;
         this.name = name;
         this.subject = subject;

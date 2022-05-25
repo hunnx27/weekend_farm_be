@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.Optional;
 
 public class CookieUtils {
+
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
 
@@ -23,7 +24,8 @@ public class CookieUtils {
         return Optional.empty();
     }
 
-    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+    public static void addCookie(HttpServletResponse response, String name, String value,
+        int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -32,7 +34,7 @@ public class CookieUtils {
     }
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response,
-                                    String name) {
+        String name) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null && cookies.length > 0) {
@@ -49,12 +51,12 @@ public class CookieUtils {
 
     public static String serialize(Object obj) {
         return Base64.getUrlEncoder()
-                .encodeToString(SerializationUtils.serialize(obj));
+            .encodeToString(SerializationUtils.serialize(obj));
     }
 
     public static <T> T deserialize(Cookie cookie, Class<T> t) {
         return t.cast(SerializationUtils.deserialize(
-                Base64.getUrlDecoder().decode(cookie.getValue())
+            Base64.getUrlDecoder().decode(cookie.getValue())
         ));
     }
 }

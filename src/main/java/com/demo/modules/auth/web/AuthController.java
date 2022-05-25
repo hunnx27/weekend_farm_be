@@ -23,18 +23,22 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
+
     private final UserDetailServiceImpl userDetailService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(HttpServletResponse response, @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(HttpServletResponse response,
+        @RequestBody LoginRequest loginRequest) {
 
         UserDetails principal = userDetailService.loadUserByUsername(loginRequest.getName());
-        if (!passwordEncoder.matches(loginRequest.getPassword(), principal.getPassword()))
+        if (!passwordEncoder.matches(loginRequest.getPassword(), principal.getPassword())) {
             throw new UsernameNotFoundException("invalid Password");
+        }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal,
+            principal.getPassword(), principal.getAuthorities());
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
 

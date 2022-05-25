@@ -18,7 +18,9 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 @Repository
-public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport implements AccountRepositoryExtension {
+public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport implements
+    AccountRepositoryExtension {
+
     private final JPAQueryFactory queryFactory;
 
     public AccountRepositoryExtensionImpl(JPAQueryFactory queryFactory) {
@@ -33,7 +35,7 @@ public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport im
         BooleanBuilder where = new BooleanBuilder();
         where.and(account.isDelete.eq(YN.N));
 
-        if(StringUtils.hasText(accountSearchRequest.getName())){
+        if (StringUtils.hasText(accountSearchRequest.getName())) {
             where.or(account.name.containsIgnoreCase(accountSearchRequest.getName()));
         }
         if (StringUtils.hasText(accountSearchRequest.getEmail())) {
@@ -41,11 +43,11 @@ public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport im
         }
 
         JPQLQuery<Account> result = from(account)
-                .where(where);
+            .where(where);
 
         JPQLQuery<Account> query = Objects
-                .requireNonNull(getQuerydsl())
-                .applyPagination(pageable, result);
+            .requireNonNull(getQuerydsl())
+            .applyPagination(pageable, result);
 
         QueryResults<Account> queryResults = query.fetchResults();
         return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
@@ -55,12 +57,12 @@ public class AccountRepositoryExtensionImpl extends QuerydslRepositorySupport im
     public Account deleteAccount(Long id) {
         QAccount account = QAccount.account;
         queryFactory.update(account)
-                .set(account.isDelete, YN.Y)
-                .where(account.id.eq(id)
-                        .and(account.isDelete.eq(YN.N)))
-                .execute();
+            .set(account.isDelete, YN.Y)
+            .where(account.id.eq(id)
+                .and(account.isDelete.eq(YN.N)))
+            .execute();
         return from(account)
-                .where(account.id.eq(id))
-                .fetchOne();
+            .where(account.id.eq(id))
+            .fetchOne();
     }
 }

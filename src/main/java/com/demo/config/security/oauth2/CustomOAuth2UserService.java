@@ -22,6 +22,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final AccountRepository accountRepository;
     private final HttpSession httpSession;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         DefaultOAuth2UserService defaultOAuth2UserService = new DefaultOAuth2UserService();
@@ -30,12 +31,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
         String userNameAttributeName = userRequest
-                                        .getClientRegistration()
-                                        .getProviderDetails()
-                                        .getUserInfoEndpoint()
-                                        .getUserNameAttributeName();
+            .getClientRegistration()
+            .getProviderDetails()
+            .getUserInfoEndpoint()
+            .getUserNameAttributeName();
 
-        OAuthAttributes of = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        OAuthAttributes of = OAuthAttributes.of(registrationId, userNameAttributeName,
+            oAuth2User.getAttributes());
 
         Account account = saveOrUpdate(of);
 
@@ -47,8 +49,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private Account saveOrUpdate(OAuthAttributes of) {
         Account account = Optional.ofNullable(accountRepository.findByEmail(of.getEmail()))
-                .map(x -> x.update(of.getName(), of.getPicture()))
-                .orElse(of.toEntity());
+            .map(x -> x.update(of.getName(), of.getPicture()))
+            .orElse(of.toEntity());
         return accountRepository.save(account);
     }
 
