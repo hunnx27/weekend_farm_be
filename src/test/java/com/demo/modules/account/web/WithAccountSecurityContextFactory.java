@@ -1,8 +1,8 @@
 package com.demo.modules.account.web;
 
-import com.demo.config.security.UserDetailServiceImpl;
-import com.demo.modules.account.application.AccountService;
-import com.demo.modules.account.domain.Account;
+import com.wefarm.config.security.UserDetailServiceImpl;
+import com.wefarm.modules.account.application.AccountService;
+import com.wefarm.modules.account.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;

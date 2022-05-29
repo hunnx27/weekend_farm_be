@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.demo.infra.MockMvcTest;
 import com.demo.modules.account.web.WithAccount;
-import com.demo.modules.education.application.EducationService;
-import com.demo.modules.education.domain.Education;
-import com.demo.modules.education.infra.EducationRepository;
+import com.wefarm.modules.education.application.EducationService;
+import com.wefarm.modules.education.domain.Education;
+import com.wefarm.modules.education.infra.EducationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;

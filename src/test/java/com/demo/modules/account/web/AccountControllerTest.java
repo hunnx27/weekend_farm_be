@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.demo.infra.MockMvcTest;
-import com.demo.modules.account.application.AccountService;
-import com.demo.modules.account.domain.Account;
-import com.demo.modules.account.infra.AccountRepository;
+import com.wefarm.modules.account.application.AccountService;
+import com.wefarm.modules.account.domain.Account;
+import com.wefarm.modules.account.infra.AccountRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Map;
