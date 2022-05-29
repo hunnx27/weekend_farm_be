@@ -12,12 +12,14 @@ import javax.persistence.Embedded;
 @NoArgsConstructor
 public class FarmCreateRequest {
 
-    private String code;
+    private Long id;
     private String name;
-    @Embedded
-    private Address address;
-    private String lat;
-    private String lng;
-    private int totalMemberCount;
-    private int currentMemberCount;
+    private String addr;
+    private Double lat;
+    private Double lng;
+    private String owner;
+    private int price;
+    private String desc;
+    private String source;
+    private String sourceUrl;
 }

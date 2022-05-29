@@ -58,10 +58,14 @@
         </dependency>
 
         <!--DB-->
-        <dependency>
+        <!--<dependency>
             <groupId>software.aws.rds</groupId>
             <artifactId>aws-mysql-jdbc</artifactId>
             <version>1.0.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <!--QueryDsl-->

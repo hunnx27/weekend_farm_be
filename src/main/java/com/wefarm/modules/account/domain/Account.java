@@ -3,9 +3,6 @@ package com.wefarm.modules.account.domain;
 import com.wefarm.modules.account.application.request.AccountUpdateRequest;
 import com.wefarm.modules.account.type.Role;
 import com.wefarm.modules.common.domain.BaseEntity;
-import com.wefarm.modules.education.domain.Education;
-import com.wefarm.modules.farm.domain.Farm;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -44,12 +41,12 @@ public class Account extends BaseEntity {
 
     private Role role;
 
-    @ManyToMany(mappedBy = "accounts")
-    @JsonBackReference
-    private Set<Education> educations = new HashSet<>();
+//    @ManyToMany(mappedBy = "accounts")
+//    @JsonBackReference
+//    private Set<Education> educations = new HashSet<>();
 
-    @ManyToOne
-    private Farm farm;
+//    @ManyToOne
+//    private Farm farm;
 
     public Account(String name, String email, String picture) {
         this.name = name;

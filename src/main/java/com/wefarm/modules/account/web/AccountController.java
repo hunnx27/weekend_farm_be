@@ -65,10 +65,10 @@ public class AccountController extends BaseApiController {
         return ResponseEntity.status(HttpStatus.OK).body(delete);
     }
 
-    @GetMapping("/accounts/{id}/educations")
-    public ResponseEntity<?> educations(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.educations(id));
-    }
+//    @GetMapping("/accounts/{id}/educations")
+//    public ResponseEntity<?> educations(@PathVariable Long id) {
+//        return ResponseEntity.ok(accountService.educations(id));
+//    }
 
     @GetMapping("/accounts/me")
     public ResponseEntity<?> me(@CurrentAccount Account account) {

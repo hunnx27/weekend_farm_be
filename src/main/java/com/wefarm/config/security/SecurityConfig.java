@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers("/login").not().fullyAuthenticated()
+            .antMatchers("/api/**").permitAll()
             .antMatchers("/auth/**").permitAll()
             .anyRequest().authenticated();
 
@@ -59,16 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
             .logoutSuccessUrl("/");
 
-        http.oauth2Login()
-            .defaultSuccessUrl("/login-success")
-            .successHandler(oAuth2AuthenticationSuccessHandler)
-            .failureHandler(oAuth2AuthenticationFailureHandler)
-            .authorizationEndpoint()
-            .baseUri("/oauth2/authorization")
-            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-            .and()
-            .userInfoEndpoint()
-            .userService(customOAuth2UserService);
+//        http.oauth2Login()
+//            .defaultSuccessUrl("/login-success")
+//            .successHandler(oAuth2AuthenticationSuccessHandler)
+//            .failureHandler(oAuth2AuthenticationFailureHandler)
+//            .authorizationEndpoint()
+//            .baseUri("/oauth2/authorization")
+//            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+//            .and()
+//            .userInfoEndpoint()
+//            .userService(customOAuth2UserService);
 
         http.addFilterBefore(new JwtFilter(jwtProvider),
             UsernamePasswordAuthenticationFilter.class);

@@ -45,7 +45,7 @@ public class FarmController extends BaseApiController {
     @PostMapping("/farms/{id}/add")
     public ResponseEntity addFarm(@PathVariable Long id, Account account) {
         Farm one = farmService.findOne(id);
-        one.addAccount(account);
+//        one.addAccount(account);
         return ResponseEntity.ok().build();
     }
 }

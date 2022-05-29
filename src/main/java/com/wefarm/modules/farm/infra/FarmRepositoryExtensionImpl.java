@@ -4,11 +4,11 @@ import com.wefarm.modules.common.type.YN;
 import com.wefarm.modules.farm.application.request.FarmSearchRequest;
 import com.wefarm.modules.farm.application.request.FarmUpdateRequest;
 import com.wefarm.modules.farm.domain.Farm;
-import com.wefarm.modules.farm.domain.QOrganization;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.wefarm.modules.farm.domain.QFarm;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -26,27 +26,21 @@ public class FarmRepositoryExtensionImpl extends QuerydslRepositorySupport imple
 
     @Override
     public PageImpl<Farm> list(FarmSearchRequest farmSearchRequest) {
-        QOrganization organization = QOrganization.organization;
+        QFarm farm = QFarm.farm;
 
         final Pageable pageable = farmSearchRequest.getPageable();
 
         BooleanBuilder where = new BooleanBuilder();
-        where.and(organization.isDelete.eq(YN.N));
+        where.and(farm.isDelete.eq(YN.N));
 
-        if (StringUtils.hasText(farmSearchRequest.getCode())) {
-            where.and(organization.code.eq(farmSearchRequest.getCode()));
-        }
         if (StringUtils.hasText(farmSearchRequest.getName())) {
-            where.and(organization.name.eq(farmSearchRequest.getName()));
+            where.and(farm.name.eq(farmSearchRequest.getName()));
         }
-        if (StringUtils.hasText(farmSearchRequest.getAddress())) {
-            where.and(
-                organization.address.city.like("%" + farmSearchRequest.getAddress() + "%")
-                    .or(organization.address.street.like(
-                        "%" + farmSearchRequest.getAddress() + "%")));
+        if (StringUtils.hasText(farmSearchRequest.getAddr())) {
+            where.and(farm.addr.eq(farmSearchRequest.getAddr()));
         }
 
-        JPQLQuery<Farm> result = from(organization)
+        JPQLQuery<Farm> result = from(farm)
             .where(where);
 
         JPQLQuery<Farm> query = getQuerydsl().applyPagination(pageable, result);
@@ -56,10 +50,11 @@ public class FarmRepositoryExtensionImpl extends QuerydslRepositorySupport imple
 
     @Override
     public void update(FarmUpdateRequest updateRequest) {
-        QOrganization organization = QOrganization.organization;
-        update(organization)
-            .set(organization.name, updateRequest.getName())
-            .where(organization.id.eq(updateRequest.getId()))
+        QFarm farm = QFarm.farm;
+        update(farm)
+            .set(farm.name, updateRequest.getName())
+            .set(farm.addr, updateRequest.getAddr())
+            .where(farm.id.eq(updateRequest.getId()))
             .execute();
     }
 }

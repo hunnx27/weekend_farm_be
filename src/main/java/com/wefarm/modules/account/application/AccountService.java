@@ -2,9 +2,6 @@ package com.wefarm.modules.account.application;
 
 import com.wefarm.modules.account.application.request.AccountUpdateRequest;
 import com.wefarm.modules.account.type.Role;
-import com.wefarm.modules.education.application.EducationService;
-import com.wefarm.modules.education.domain.Education;
-import com.wefarm.modules.education.infra.EducationRepository;
 import com.wefarm.modules.account.application.request.AccountSearchRequest;
 import com.wefarm.modules.account.domain.Account;
 import com.wefarm.modules.account.infra.AccountRepository;
@@ -17,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -28,8 +24,8 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountConverter accountConverter;
-    private final EducationRepository educationRepository;
-    private final EducationService educationService;
+//    private final EducationRepository educationRepository;
+//    private final EducationService educationService;
     private final PasswordEncoder passwordEncoder;
 
     public Account create(Account account) {
@@ -56,19 +52,19 @@ public class AccountService {
 
     public boolean delete(Long id) {
         Account account = accountRepository.deleteAccount(id);
-        if (account.getIsDelete().equals(YN.Y)) {
-            List<Education> educationsByAccounts = educationRepository.findEducationsByAccounts(
-                account);
-            educationsByAccounts.forEach(education -> education.removeAccount(account));
-        }
+//        if (account.getIsDelete().equals(YN.Y)) {
+//            List<Education> educationsByAccounts = educationRepository.findEducationsByAccounts(
+//                account);
+//            educationsByAccounts.forEach(education -> education.removeAccount(account));
+//        }
 
         return true;
     }
 
-    public List<Education> educations(Long id) {
-        Account account = accountRepository.findById(id).orElseThrow();
-        return educationRepository.findEducationsByAccounts(account);
-    }
+//    public List<Education> educations(Long id) {
+//        Account account = accountRepository.findById(id).orElseThrow();
+//        return educationRepository.findEducationsByAccounts(account);
+//    }
 
 
 }
