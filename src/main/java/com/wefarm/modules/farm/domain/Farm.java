@@ -1,4 +1,4 @@
-package com.wefarm.modules.organization.domain;
+package com.wefarm.modules.farm.domain;
 
 import com.wefarm.modules.account.domain.Account;
 import com.wefarm.modules.common.domain.Address;
@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-public class Organization extends BaseEntity {
+public class Farm extends BaseEntity {
 
     @Id
     @GeneratedValue

@@ -1,4 +1,4 @@
-package com.wefarm.modules.organization.application.request;
+package com.wefarm.modules.farm.application.request;
 
 import com.wefarm.modules.common.domain.Address;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.persistence.Embedded;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrganizationCreateRequest {
+public class FarmCreateRequest {
 
     private String code;
     private String name;
