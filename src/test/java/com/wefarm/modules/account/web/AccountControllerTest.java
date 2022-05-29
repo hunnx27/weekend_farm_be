@@ -1,6 +1,6 @@
-package com.demo.modules.account.web;
+package com.wefarm.modules.account.web;
 
-import static com.demo.common.testenv.WithAccountFixture.USERNAME;
+import static com.wefarm.common.testenv.WithAccountFixture.USERNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.demo.infra.MockMvcTest;
+import com.wefarm.infra.MockMvcTest;
 import com.wefarm.modules.account.application.AccountService;
 import com.wefarm.modules.account.domain.Account;
 import com.wefarm.modules.account.infra.AccountRepository;

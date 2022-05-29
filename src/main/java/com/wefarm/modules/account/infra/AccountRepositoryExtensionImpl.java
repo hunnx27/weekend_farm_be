@@ -1,7 +1,7 @@
 package com.wefarm.modules.account.infra;
 
 import com.wefarm.modules.account.domain.Account;
-import com.demo.modules.account.domain.QAccount;
+import com.wefarm.modules.account.domain.QAccount;
 import com.wefarm.modules.account.application.request.AccountSearchRequest;
 import com.wefarm.modules.common.type.YN;
 import com.querydsl.core.BooleanBuilder;

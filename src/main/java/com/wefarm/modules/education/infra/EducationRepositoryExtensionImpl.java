@@ -1,9 +1,9 @@
 package com.wefarm.modules.education.infra;
 
-import com.demo.modules.account.domain.QAccount;
+import com.wefarm.modules.account.domain.QAccount;
 import com.wefarm.modules.education.application.request.EducationSearchRequest;
 import com.wefarm.modules.education.domain.Education;
-import com.demo.modules.education.domain.QEducation;
+import com.wefarm.modules.education.domain.QEducation;
 import com.wefarm.modules.common.type.YN;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;

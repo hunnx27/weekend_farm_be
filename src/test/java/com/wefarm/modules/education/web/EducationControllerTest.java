@@ -1,6 +1,6 @@
-package com.demo.modules.education.web;
+package com.wefarm.modules.education.web;
 
-import static com.demo.common.testenv.WithAccountFixture.USERNAME;
+import static com.wefarm.common.testenv.WithAccountFixture.USERNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.demo.infra.MockMvcTest;
-import com.demo.modules.account.web.WithAccount;
+import com.wefarm.infra.MockMvcTest;
+import com.wefarm.modules.account.web.WithAccount;
 import com.wefarm.modules.education.application.EducationService;
 import com.wefarm.modules.education.domain.Education;
 import com.wefarm.modules.education.infra.EducationRepository;

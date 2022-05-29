@@ -1,4 +1,4 @@
-package com.demo.infra;
+package com.wefarm.infra;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

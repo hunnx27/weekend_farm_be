@@ -1,4 +1,4 @@
-package com.demo.modules.account.web;
+package com.wefarm.modules.account.web;
 
 import com.wefarm.config.security.UserDetailServiceImpl;
 import com.wefarm.modules.account.application.AccountService;

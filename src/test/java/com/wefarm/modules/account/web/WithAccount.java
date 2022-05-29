@@ -1,4 +1,4 @@
-package com.demo.modules.account.web;
+package com.wefarm.modules.account.web;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

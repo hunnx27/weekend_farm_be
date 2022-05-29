@@ -1,4 +1,4 @@
-package com.demo.common.testenv;
+package com.wefarm.common.testenv;
 
 public class WithAccountFixture {
 

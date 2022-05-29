@@ -4,7 +4,7 @@ import com.wefarm.modules.common.type.YN;
 import com.wefarm.modules.organization.application.request.OrganizationSearchRequest;
 import com.wefarm.modules.organization.application.request.OrganizationUpdateRequest;
 import com.wefarm.modules.organization.domain.Organization;
-import com.demo.modules.organization.domain.QOrganization;
+import com.wefarm.modules.organization.domain.QOrganization;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
