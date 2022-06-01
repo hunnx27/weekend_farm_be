@@ -36,8 +36,8 @@ public class FarmRepositoryExtensionImpl extends QuerydslRepositorySupport imple
         if (StringUtils.hasText(farmSearchRequest.getName())) {
             where.and(farm.name.eq(farmSearchRequest.getName()));
         }
-        if (StringUtils.hasText(farmSearchRequest.getAddr())) {
-            where.and(farm.addr.eq(farmSearchRequest.getAddr()));
+        if (StringUtils.hasText(farmSearchRequest.getAddress())) {
+            where.and(farm.address.eq(farmSearchRequest.getAddress()));
         }
 
         JPQLQuery<Farm> result = from(farm)
@@ -53,7 +53,7 @@ public class FarmRepositoryExtensionImpl extends QuerydslRepositorySupport imple
         QFarm farm = QFarm.farm;
         update(farm)
             .set(farm.name, updateRequest.getName())
-            .set(farm.addr, updateRequest.getAddr())
+            .set(farm.address, updateRequest.getAddress())
             .where(farm.id.eq(updateRequest.getId()))
             .execute();
     }
