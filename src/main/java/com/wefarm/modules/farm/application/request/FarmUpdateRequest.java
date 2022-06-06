@@ -18,4 +18,5 @@ public class FarmUpdateRequest {
     private String description;
     private String source;
     private String sourceUrl;
+    private int likeCnt;
 }

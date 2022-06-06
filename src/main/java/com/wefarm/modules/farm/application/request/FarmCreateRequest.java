@@ -23,4 +23,5 @@ public class FarmCreateRequest {
     private String description;
     private String source;
     private String sourceUrl;
+    private int likeCnt;
 }

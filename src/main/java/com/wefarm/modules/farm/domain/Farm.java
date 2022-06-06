@@ -24,4 +24,5 @@ public class Farm extends BaseEntity {
     private String description;
     private String source;
     private String sourceUrl;
+    private int likeCnt;
 }
